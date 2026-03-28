@@ -1,0 +1,41 @@
+{
+  "id": 1,
+  "name": "The Black Barrow",
+  "level": 1,
+  "goalDescription": "Kill all enemies",
+  "goal": "KILL_ALL",
+  "rewards": {
+    "gold": 0,
+    "xp": 0,
+    "unlocks": [2]
+  },
+  "initialRevealedRooms": [1],
+  "spaces": [
+    { "id": "A1", "coord": { "q": 0, "r": 0 }, "terrain": "NORMAL", "roomId": 1 },
+    { "id": "A2", "coord": { "q": 1, "r": 0 }, "terrain": "NORMAL", "roomId": 1 },
+    { "id": "A3", "coord": { "q": 2, "r": 0 }, "terrain": "NORMAL", "roomId": 1 },
+    { "id": "A4", "coord": { "q": 0, "r": 1 }, "terrain": "NORMAL", "roomId": 1 },
+    { "id": "A5", "coord": { "q": 1, "r": 1 }, "terrain": "NORMAL", "roomId": 1 },
+    { "id": "A6", "coord": { "q": 2, "r": 1 }, "terrain": "NORMAL", "roomId": 1 },
+    { "id": "A7", "coord": { "q": 0, "r": 2 }, "terrain": "NORMAL", "roomId": 1 },
+    { "id": "A8", "coord": { "q": 1, "r": 2 }, "terrain": "NORMAL", "roomId": 1 },
+    { "id": "A9", "coord": { "q": 2, "r": 2 }, "terrain": "OBSTACLE", "roomId": 1 },
+    { "id": "B1", "coord": { "q": 3, "r": 0 }, "terrain": "DOOR", "roomId": 1 },
+    { "id": "C1", "coord": { "q": 4, "r": 0 }, "terrain": "NORMAL", "roomId": 2 },
+    { "id": "C2", "coord": { "q": 5, "r": 0 }, "terrain": "NORMAL", "roomId": 2 },
+    { "id": "C3", "coord": { "q": 4, "r": 1 }, "terrain": "NORMAL", "roomId": 2 },
+    { "id": "C4", "coord": { "q": 5, "r": 1 }, "terrain": "NORMAL", "roomId": 2 },
+    { "id": "C5", "coord": { "q": 4, "r": 2 }, "terrain": "OBSTACLE", "roomId": 2 },
+    { "id": "C6", "coord": { "q": 5, "r": 2 }, "terrain": "NORMAL", "roomId": 2 },
+    { "id": "C7", "coord": { "q": 6, "r": 0 }, "terrain": "NORMAL", "roomId": 2 },
+    { "id": "C8", "coord": { "q": 6, "r": 1 }, "terrain": "NORMAL", "roomId": 2 }
+  ],
+  "monsterSpawns": [
+    { "monsterId": "Bandit Guard", "isElite": false, "number": 1, "spaceId": "A2", "roomId": 1 },
+    { "monsterId": "Bandit Guard", "isElite": false, "number": 2, "spaceId": "A6", "roomId": 1 },
+    { "monsterId": "Bandit Archer", "isElite": false, "number": 1, "spaceId": "C2", "roomId": 2 },
+    { "monsterId": "Bandit Archer", "isElite": true,  "number": 2, "spaceId": "C7", "roomId": 2 },
+    { "monsterId": "Bandit Guard",  "isElite": true,  "number": 3, "spaceId": "C8", "roomId": 2 }
+  ],
+  "playerStartSpaces": ["A1", "A4"]
+}

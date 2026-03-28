@@ -1,0 +1,38 @@
+{
+  "name": "Bandit Archer",
+  "isBoss": false,
+  "levels": {
+    "1": {
+      "normal": { "hp": 4, "move": 2, "attack": 2, "range": 3, "immunities": [] },
+      "elite":  { "hp": 6, "move": 2, "attack": 3, "range": 4, "immunities": [] }
+    },
+    "2": {
+      "normal": { "hp": 5, "move": 2, "attack": 2, "range": 3, "immunities": [] },
+      "elite":  { "hp": 8, "move": 3, "attack": 3, "range": 4, "immunities": [] }
+    },
+    "3": {
+      "normal": { "hp": 6, "move": 2, "attack": 3, "range": 3, "immunities": [] },
+      "elite":  { "hp": 10, "move": 3, "attack": 4, "range": 4, "immunities": [] }
+    }
+  },
+  "aiDeck": [
+    { "id": "ba-01", "initiative": 15, "shuffle": false,
+      "top": { "attack": { "value": 2, "range": 3, "target": "SINGLE" } },
+      "bottom": { "move": { "value": 2 } } },
+    { "id": "ba-02", "initiative": 28, "shuffle": false,
+      "top": { "move": { "value": 3 } },
+      "bottom": { "attack": { "value": 2, "range": 3, "target": "SINGLE" } } },
+    { "id": "ba-03", "initiative": 40, "shuffle": false,
+      "top": { "attack": { "value": 2, "range": 3, "target": "SINGLE", "conditions": ["POISON"] } },
+      "bottom": { "move": { "value": 1 } } },
+    { "id": "ba-04", "initiative": 55, "shuffle": false,
+      "top": { "attack": { "value": 3, "range": 3, "target": "SINGLE" } },
+      "bottom": { "move": { "value": 2 } } },
+    { "id": "ba-05", "initiative": 68, "shuffle": false,
+      "top": { "move": { "value": 2 } },
+      "bottom": { "attack": { "value": 2, "range": 4, "target": "SINGLE" } } },
+    { "id": "ba-06", "initiative": 12, "shuffle": true,
+      "top": { "attack": { "value": 2, "range": 3, "target": "ALL_IN_RANGE" } },
+      "bottom": { "move": { "value": 2 } } }
+  ]
+}
