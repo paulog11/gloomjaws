@@ -12,6 +12,7 @@
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "jsx": "preserve",
+    "noEmit": true,
     "paths": {
       "@common/*": ["./src/common/*"],
       "@server/*": ["./src/server/*"],
