@@ -5,7 +5,7 @@ import { CreateGamePayload, PlayerInputPayload } from '../../common/types.js'
 export const gameRouter = Router()
 
 // POST /api/game — create a new game session
-gameRouter.post('/', (req: Request, res: Response) => {
+gameRouter.post('/', async (req: Request, res: Response) => {
   try {
     const payload = req.body as CreateGamePayload
     if (!payload.playerNames?.length || !payload.playerClasses?.length || !payload.scenarioId) {
@@ -15,7 +15,7 @@ gameRouter.post('/', (req: Request, res: Response) => {
       return res.status(400).json({ error: 'playerNames and playerClasses must have same length' })
     }
 
-    const game = createGame(payload)
+    const game = await createGame(payload)
     return res.status(201).json(game.serialize())
   } catch (err) {
     console.error('createGame error:', err)
@@ -24,22 +24,22 @@ gameRouter.post('/', (req: Request, res: Response) => {
 })
 
 // GET /api/game/:gameId — get current game state
-gameRouter.get('/:gameId', (req: Request, res: Response) => {
-  const game = getGame(req.params.gameId)
+gameRouter.get('/:gameId', async (req: Request, res: Response) => {
+  const game = await getGame(req.params.gameId)
   if (!game) return res.status(404).json({ error: 'Game not found' })
   return res.json(game.serialize())
 })
 
 // POST /api/game/:gameId/start — start the scenario (deal hands)
-gameRouter.post('/:gameId/start', (req: Request, res: Response) => {
+gameRouter.post('/:gameId/start', async (req: Request, res: Response) => {
   try {
-    const game = getGame(req.params.gameId)
+    const game = await getGame(req.params.gameId)
     if (!game) return res.status(404).json({ error: 'Game not found' })
 
     const playerHands = new Map<string, any[]>()
     // For now start with empty hands; characters load their cards from data
     game.startScenario(playerHands)
-    persistGame(game)
+    await persistGame(game)
     return res.json(game.serialize())
   } catch (err) {
     console.error('startScenario error:', err)
@@ -48,18 +48,18 @@ gameRouter.post('/:gameId/start', (req: Request, res: Response) => {
 })
 
 // POST /api/player-input — player submits an action
-gameRouter.post('/input', (req: Request, res: Response) => {
+gameRouter.post('/input', async (req: Request, res: Response) => {
   try {
     const payload = req.body as PlayerInputPayload
     if (!payload.gameId || !payload.playerId || !payload.action) {
       return res.status(400).json({ error: 'gameId, playerId, and action required' })
     }
 
-    const game = getGame(payload.gameId)
+    const game = await getGame(payload.gameId)
     if (!game) return res.status(404).json({ error: 'Game not found' })
 
     game.processPlayerAction(payload)
-    persistGame(game)
+    await persistGame(game)
     return res.json(game.serialize())
   } catch (err) {
     console.error('playerInput error:', err)

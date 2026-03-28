@@ -34,7 +34,7 @@ function loadScenarioDef(scenarioId: number): IScenarioDef {
   ) as IScenarioDef
 }
 
-export function createGame(payload: CreateGamePayload): Game {
+export async function createGame(payload: CreateGamePayload): Promise<Game> {
   const scenarioDef = loadScenarioDef(payload.scenarioId)
   const monsterDefs = loadMonsterDefs()
   const game = new Game(scenarioDef, monsterDefs)
@@ -46,15 +46,15 @@ export function createGame(payload: CreateGamePayload): Game {
   }
 
   activeGames.set(game.gameId, game)
-  saveGame(game.gameId, game.serialize())
+  await saveGame(game.gameId, game.serialize())
   return game
 }
 
-export function getGame(gameId: string): Game | null {
+export async function getGame(gameId: string): Promise<Game | null> {
   if (activeGames.has(gameId)) return activeGames.get(gameId)!
 
   // Try to restore from DB
-  const state = loadGame(gameId)
+  const state = await loadGame(gameId)
   if (!state) return null
 
   // Full restore from DB would require re-hydrating Game from serialized state
@@ -62,6 +62,6 @@ export function getGame(gameId: string): Game | null {
   return null
 }
 
-export function persistGame(game: Game): void {
-  saveGame(game.gameId, game.serialize())
+export async function persistGame(game: Game): Promise<void> {
+  await saveGame(game.gameId, game.serialize())
 }
