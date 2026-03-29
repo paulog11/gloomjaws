@@ -50,10 +50,10 @@ const hpPercent = computed(() =>
 
 const classLabel = computed(() => {
   const labels: Record<CardClass, string> = {
-    [CardClass.INOX_DRIFTER]: 'Drifter',
     [CardClass.VALRATH_RED_GUARD]: 'Red Guard',
+    [CardClass.INOX_HATCHET]: 'Hatchet',
     [CardClass.QUATRYL_DEMOLITIONIST]: 'Demolitionist',
-    [CardClass.AESTHER_HATCHET]: 'Hatchet',
+    [CardClass.AESTHER_VOIDWARDEN]: 'Voidwarden',
   }
   return labels[props.player.cardClass]
 })

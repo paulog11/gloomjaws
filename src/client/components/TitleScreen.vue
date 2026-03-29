@@ -10,10 +10,10 @@
         <label>Player {{ i + 1 }}</label>
         <input v-model="players[i].name" placeholder="Name" class="input" />
         <select v-model="players[i].cardClass" class="select">
-          <option value="INOX_DRIFTER">Inox Drifter</option>
           <option value="VALRATH_RED_GUARD">Valrath Red Guard</option>
+          <option value="INOX_HATCHET">Inox Hatchet</option>
           <option value="QUATRYL_DEMOLITIONIST">Quatryl Demolitionist</option>
-          <option value="AESTHER_HATCHET">Aesther Hatchet</option>
+          <option value="AESTHER_VOIDWARDEN">Aesther Voidwarden</option>
         </select>
         <button v-if="players.length > 1" @click="removePlayer(i)" class="btn-remove">✕</button>
       </div>
@@ -46,7 +46,7 @@ import type { CardClass } from '../../common/types'
 const store = useGameStore()
 
 const players = ref([
-  { name: 'Player 1', cardClass: 'INOX_DRIFTER' as CardClass },
+  { name: 'Player 1', cardClass: 'VALRATH_RED_GUARD' as CardClass },
 ])
 const scenarioId = ref(1)
 

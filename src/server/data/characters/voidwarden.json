@@ -1,0 +1,136 @@
+{
+  "id": "AESTHER_VOIDWARDEN",
+  "name": "Aesther Voidwarden",
+  "hp": [6, 6, 7, 8, 8, 9, 10, 10, 11, 12],
+  "cards": [
+    {
+      "id": "vw-01", "name": "Signs of the Void", "level": 1, "initiative": 15,
+      "top": {
+        "behavior": { "attack": { "value": 2, "range": 3, "target": "SINGLE" }, "produceElement": "DARK" }
+      },
+      "bottom": {
+        "behavior": { "move": { "value": 2 } }
+      }
+    },
+    {
+      "id": "vw-02", "name": "Suggestion", "level": 1, "initiative": 23,
+      "top": {
+        "behavior": { "attack": { "value": 1, "range": 3, "target": "SINGLE", "conditions": ["MUDDLE"] } }
+      },
+      "bottom": {
+        "behavior": { "move": { "value": 3 } }
+      }
+    },
+    {
+      "id": "vw-03", "name": "Grasp of Doom", "level": 1, "initiative": 36,
+      "top": {
+        "behavior": { "attack": { "value": 2, "range": 3, "target": "SINGLE", "conditions": ["IMMOBILIZE"] } }
+      },
+      "bottom": {
+        "behavior": { "move": { "value": 2 } }
+      }
+    },
+    {
+      "id": "vw-04", "name": "Black Boon", "level": 1, "initiative": 43,
+      "top": {
+        "behavior": { "heal": 3 }
+      },
+      "bottom": {
+        "behavior": { "move": { "value": 3 }, "produceElement": "DARK" }
+      }
+    },
+    {
+      "id": "vw-05", "name": "Turn Out the Lights", "level": 1, "initiative": 49,
+      "top": {
+        "behavior": { "attack": { "value": 3, "range": 3, "target": "SINGLE" }, "consumeElement": "DARK" },
+        "lossOnUse": true
+      },
+      "bottom": {
+        "behavior": { "move": { "value": 2 }, "shield": 1 }
+      }
+    },
+    {
+      "id": "vw-06", "name": "Freeze the Soul", "level": 1, "initiative": 58,
+      "top": {
+        "behavior": { "attack": { "value": 2, "range": 3, "target": "SINGLE", "conditions": ["STUN"] } },
+        "lossOnUse": true
+      },
+      "bottom": {
+        "behavior": { "move": { "value": 3 } }
+      }
+    },
+    {
+      "id": "vw-07", "name": "Lure of the Void", "level": 1, "initiative": 67,
+      "top": {
+        "behavior": { "attack": { "value": 1, "range": 4, "target": "SINGLE", "pull": 2 } }
+      },
+      "bottom": {
+        "behavior": { "move": { "value": 3 } }
+      }
+    },
+    {
+      "id": "vw-08", "name": "Wicked Scratch", "level": 1, "initiative": 68,
+      "top": {
+        "behavior": { "attack": { "value": 3, "range": 0, "target": "SINGLE" } }
+      },
+      "bottom": {
+        "behavior": { "move": { "value": 2 } }
+      }
+    },
+    {
+      "id": "vw-09", "name": "Close to the Abyss", "level": 1, "initiative": 72,
+      "top": {
+        "behavior": { "attack": { "value": 2, "range": 3, "target": "SINGLE" } }
+      },
+      "bottom": {
+        "behavior": { "heal": 2, "produceElement": "DARK" }
+      }
+    },
+    {
+      "id": "vw-10", "name": "Master Influence", "level": 1, "initiative": 83,
+      "top": {
+        "behavior": { "heal": 2 }
+      },
+      "bottom": {
+        "behavior": { "move": { "value": 4 }, "loot": 1 }
+      }
+    },
+    {
+      "id": "vw-11", "name": "Gift of the Void", "level": 1, "initiative": 89,
+      "top": {
+        "behavior": { "heal": 4 },
+        "lossOnUse": true
+      },
+      "bottom": {
+        "behavior": { "move": { "value": 2 } }
+      }
+    },
+    {
+      "id": "vw-x1", "name": "Resigned Frenzy", "level": -1, "initiative": 26,
+      "top": {
+        "behavior": { "attack": { "value": 2, "range": 0, "target": "SINGLE" } }
+      },
+      "bottom": {
+        "behavior": { "move": { "value": 3 } }
+      }
+    },
+    {
+      "id": "vw-x2", "name": "Sap Warmth", "level": -1, "initiative": 59,
+      "top": {
+        "behavior": { "attack": { "value": 1, "range": 3, "target": "SINGLE", "conditions": ["POISON"] } }
+      },
+      "bottom": {
+        "behavior": { "move": { "value": 2 }, "heal": 1 }
+      }
+    },
+    {
+      "id": "vw-x3", "name": "Cold Embrace", "level": -1, "initiative": 71,
+      "top": {
+        "behavior": { "attack": { "value": 2, "range": 3, "target": "SINGLE" }, "produceElement": "ICE" }
+      },
+      "bottom": {
+        "behavior": { "move": { "value": 2 } }
+      }
+    }
+  ]
+}

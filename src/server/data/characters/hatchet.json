@@ -1,0 +1,127 @@
+{
+  "id": "INOX_HATCHET",
+  "name": "Inox Hatchet",
+  "hp": [8, 8, 9, 10, 10, 11, 12, 12, 13, 14],
+  "cards": [
+    {
+      "id": "hat-01", "name": "The Favorite", "level": 1, "initiative": 17,
+      "top": {
+        "behavior": { "attack": { "value": 3, "range": 4, "target": "SINGLE" } }
+      },
+      "bottom": {
+        "behavior": { "move": { "value": 2 } }
+      }
+    },
+    {
+      "id": "hat-02", "name": "Second Wind", "level": 1, "initiative": 18,
+      "top": {
+        "behavior": { "heal": 4 },
+        "lossOnUse": true
+      },
+      "bottom": {
+        "behavior": { "move": { "value": 3 } }
+      }
+    },
+    {
+      "id": "hat-03", "name": "Center Mass", "level": 1, "initiative": 24,
+      "top": {
+        "behavior": { "attack": { "value": 3, "range": 3, "target": "SINGLE" } }
+      },
+      "bottom": {
+        "behavior": { "move": { "value": 3 } }
+      }
+    },
+    {
+      "id": "hat-04", "name": "Close Cuts", "level": 1, "initiative": 25,
+      "top": {
+        "behavior": { "attack": { "value": 2, "range": 0, "target": "SINGLE" } }
+      },
+      "bottom": {
+        "behavior": { "attack": { "value": 2, "range": 0, "target": "SINGLE" } }
+      }
+    },
+    {
+      "id": "hat-05", "name": "Stopping Power", "level": 1, "initiative": 35,
+      "top": {
+        "behavior": { "attack": { "value": 4, "range": 3, "target": "SINGLE" } },
+        "lossOnUse": true
+      },
+      "bottom": {
+        "behavior": { "move": { "value": 2 } }
+      }
+    },
+    {
+      "id": "hat-06", "name": "Follow Through", "level": 1, "initiative": 39,
+      "top": {
+        "behavior": { "attack": { "value": 2, "range": 3, "target": "SINGLE" }, "xp": 1 }
+      },
+      "bottom": {
+        "behavior": { "move": { "value": 4 } }
+      }
+    },
+    {
+      "id": "hat-07", "name": "Retrieval", "level": 1, "initiative": 46,
+      "top": {
+        "behavior": { "attack": { "value": 2, "range": 3, "target": "SINGLE" } }
+      },
+      "bottom": {
+        "behavior": { "move": { "value": 3 }, "loot": 1 }
+      }
+    },
+    {
+      "id": "hat-08", "name": "Disorienting Barrage", "level": 1, "initiative": 51,
+      "top": {
+        "behavior": { "attack": { "value": 2, "range": 3, "target": "SINGLE", "conditions": ["MUDDLE"] } }
+      },
+      "bottom": {
+        "behavior": { "move": { "value": 3 } }
+      }
+    },
+    {
+      "id": "hat-09", "name": "Power Pitch", "level": 1, "initiative": 60,
+      "top": {
+        "behavior": { "attack": { "value": 4, "range": 4, "target": "SINGLE" } },
+        "lossOnUse": true
+      },
+      "bottom": {
+        "behavior": { "move": { "value": 2 } }
+      }
+    },
+    {
+      "id": "hat-10", "name": "Double Throw", "level": 1, "initiative": 64,
+      "top": {
+        "behavior": { "attack": { "value": 2, "range": 3, "target": "SINGLE" } }
+      },
+      "bottom": {
+        "behavior": { "move": { "value": 2 } }
+      }
+    },
+    {
+      "id": "hat-x1", "name": "Fancy Hat", "level": -1, "initiative": 12,
+      "top": {
+        "behavior": { "attack": { "value": 2, "range": 3, "target": "SINGLE" } }
+      },
+      "bottom": {
+        "behavior": { "move": { "value": 2 }, "shield": 1 }
+      }
+    },
+    {
+      "id": "hat-x2", "name": "Extra Lift", "level": -1, "initiative": 21,
+      "top": {
+        "behavior": { "attack": { "value": 3, "range": 4, "target": "SINGLE" } }
+      },
+      "bottom": {
+        "behavior": { "move": { "value": 3 }, "heal": 1 }
+      }
+    },
+    {
+      "id": "hat-x3", "name": "Care Package", "level": -1, "initiative": 30,
+      "top": {
+        "behavior": { "heal": 3 }
+      },
+      "bottom": {
+        "behavior": { "move": { "value": 3 } }
+      }
+    }
+  ]
+}

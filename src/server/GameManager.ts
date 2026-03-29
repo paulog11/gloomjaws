@@ -6,7 +6,9 @@ import { saveGame, loadGame } from './db.js'
 import {
   IMonsterDef,
   IScenarioDef,
+  IAbilityCard,
   CreateGamePayload,
+  CardClass,
 } from '../common/types.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -34,15 +36,36 @@ function loadScenarioDef(scenarioId: number): IScenarioDef {
   ) as IScenarioDef
 }
 
+const CLASS_FILE_MAP: Record<CardClass, string> = {
+  [CardClass.VALRATH_RED_GUARD]: 'red-guard.json',
+  [CardClass.INOX_HATCHET]: 'hatchet.json',
+  [CardClass.QUATRYL_DEMOLITIONIST]: 'demolitionist.json',
+  [CardClass.AESTHER_VOIDWARDEN]: 'voidwarden.json',
+}
+
+function loadCharacterCards(cardClass: CardClass): IAbilityCard[] {
+  const file = CLASS_FILE_MAP[cardClass]
+  if (!file) return []
+  const filePath = path.join(DATA_DIR, 'characters', file)
+  try {
+    const data = JSON.parse(readFileSync(filePath, 'utf-8'))
+    return data.cards as IAbilityCard[]
+  } catch {
+    return []
+  }
+}
+
 export async function createGame(payload: CreateGamePayload): Promise<Game> {
   const scenarioDef = loadScenarioDef(payload.scenarioId)
   const monsterDefs = loadMonsterDefs()
   const game = new Game(scenarioDef, monsterDefs)
 
-  // Add players
+  // Add players and load their ability cards
   for (let i = 0; i < payload.playerNames.length; i++) {
     const playerId = `player-${i + 1}`
-    game.addPlayer(playerId, payload.playerNames[i], payload, i)
+    const player = game.addPlayer(playerId, payload.playerNames[i], payload, i)
+    const cards = loadCharacterCards(payload.playerClasses[i])
+    player.hand = cards
   }
 
   activeGames.set(game.gameId, game)

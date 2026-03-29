@@ -1,0 +1,120 @@
+{
+  "id": "QUATRYL_DEMOLITIONIST",
+  "name": "Quatryl Demolitionist",
+  "hp": [8, 8, 9, 10, 10, 11, 12, 12, 13, 14],
+  "cards": [
+    {
+      "id": "demo-01", "name": "Explosive Blitz", "level": 1, "initiative": 19,
+      "top": {
+        "behavior": { "attack": { "value": 3, "range": 0, "target": "SINGLE" } }
+      },
+      "bottom": {
+        "behavior": { "move": { "value": 3 } }
+      }
+    },
+    {
+      "id": "demo-02", "name": "Knock Out the Support", "level": 1, "initiative": 20,
+      "top": {
+        "behavior": { "attack": { "value": 3, "range": 0, "target": "SINGLE" } }
+      },
+      "bottom": {
+        "behavior": { "move": { "value": 4 } }
+      }
+    },
+    {
+      "id": "demo-03", "name": "Crushing Weight", "level": 1, "initiative": 22,
+      "top": {
+        "behavior": { "attack": { "value": 4, "range": 0, "target": "SINGLE" } },
+        "lossOnUse": true
+      },
+      "bottom": {
+        "behavior": { "move": { "value": 2 } }
+      }
+    },
+    {
+      "id": "demo-04", "name": "Explode", "level": 1, "initiative": 28,
+      "top": {
+        "behavior": { "attack": { "value": 3, "range": 1, "target": "ALL_ADJACENT" } },
+        "lossOnUse": true
+      },
+      "bottom": {
+        "behavior": { "move": { "value": 2 } }
+      }
+    },
+    {
+      "id": "demo-05", "name": "The Big One", "level": 1, "initiative": 37,
+      "top": {
+        "behavior": { "attack": { "value": 4, "range": 2, "target": "SINGLE" } },
+        "lossOnUse": true
+      },
+      "bottom": {
+        "behavior": { "move": { "value": 2 }, "loot": 1 }
+      }
+    },
+    {
+      "id": "demo-06", "name": "Piston Punch", "level": 1, "initiative": 42,
+      "top": {
+        "behavior": { "attack": { "value": 2, "range": 0, "target": "SINGLE", "push": 2 } }
+      },
+      "bottom": {
+        "behavior": { "move": { "value": 3 } }
+      }
+    },
+    {
+      "id": "demo-07", "name": "One-Two Punch", "level": 1, "initiative": 66,
+      "top": {
+        "behavior": { "attack": { "value": 2, "range": 0, "target": "SINGLE" } }
+      },
+      "bottom": {
+        "behavior": { "attack": { "value": 2, "range": 0, "target": "SINGLE" } }
+      }
+    },
+    {
+      "id": "demo-08", "name": "Windup", "level": 1, "initiative": 77,
+      "top": {
+        "behavior": { "attack": { "value": 2, "range": 0, "target": "SINGLE" }, "xp": 1 }
+      },
+      "bottom": {
+        "behavior": { "move": { "value": 3 } }
+      }
+    },
+    {
+      "id": "demo-09", "name": "Implode", "level": 1, "initiative": 88,
+      "top": {
+        "behavior": { "heal": 3 }
+      },
+      "bottom": {
+        "behavior": { "attack": { "value": 3, "range": 1, "target": "ALL_ADJACENT" } },
+        "lossOnUse": true
+      }
+    },
+    {
+      "id": "demo-x1", "name": "Lobbed Charge", "level": -1, "initiative": 52,
+      "top": {
+        "behavior": { "attack": { "value": 3, "range": 3, "target": "SINGLE" } },
+        "lossOnUse": true
+      },
+      "bottom": {
+        "behavior": { "move": { "value": 2 } }
+      }
+    },
+    {
+      "id": "demo-x2", "name": "Rubble", "level": -1, "initiative": 55,
+      "top": {
+        "behavior": { "attack": { "value": 2, "range": 0, "target": "SINGLE" } }
+      },
+      "bottom": {
+        "behavior": { "move": { "value": 3 }, "shield": 1 }
+      }
+    },
+    {
+      "id": "demo-x3", "name": "Level", "level": -1, "initiative": 61,
+      "top": {
+        "behavior": { "attack": { "value": 2, "range": 0, "target": "SINGLE", "conditions": ["MUDDLE"] } }
+      },
+      "bottom": {
+        "behavior": { "move": { "value": 4 } }
+      }
+    }
+  ]
+}

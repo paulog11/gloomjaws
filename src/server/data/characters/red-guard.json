@@ -1,0 +1,129 @@
+{
+  "id": "VALRATH_RED_GUARD",
+  "name": "Valrath Red Guard",
+  "hp": [10, 10, 12, 12, 14, 14, 16, 16, 18, 18],
+  "cards": [
+    {
+      "id": "rg-01", "name": "Flame Shroud", "level": 1, "initiative": 6,
+      "top": {
+        "behavior": { "retaliate": 2, "produceElement": "FIRE" },
+        "persistent": true,
+        "lossOnUse": true
+      },
+      "bottom": {
+        "behavior": { "move": { "value": 3 } }
+      }
+    },
+    {
+      "id": "rg-02", "name": "Shield of the Desert", "level": 1, "initiative": 10,
+      "top": {
+        "behavior": { "shield": 2 },
+        "persistent": true,
+        "lossOnUse": true
+      },
+      "bottom": {
+        "behavior": { "move": { "value": 3 }, "produceElement": "EARTH" }
+      }
+    },
+    {
+      "id": "rg-03", "name": "Shocking Advance", "level": 1, "initiative": 14,
+      "top": {
+        "behavior": { "attack": { "value": 2, "range": 0, "target": "SINGLE", "conditions": ["STUN"] } },
+        "lossOnUse": true
+      },
+      "bottom": {
+        "behavior": { "move": { "value": 3 } }
+      }
+    },
+    {
+      "id": "rg-04", "name": "Swift Strength", "level": 1, "initiative": 16,
+      "top": {
+        "behavior": { "attack": { "value": 2, "range": 0, "target": "SINGLE" } }
+      },
+      "bottom": {
+        "behavior": { "move": { "value": 3 } }
+      }
+    },
+    {
+      "id": "rg-05", "name": "Healing Sands", "level": 1, "initiative": 32,
+      "top": {
+        "behavior": { "attack": { "value": 2, "range": 0, "target": "SINGLE" } }
+      },
+      "bottom": {
+        "behavior": { "heal": 3, "consumeElement": "EARTH" }
+      }
+    },
+    {
+      "id": "rg-06", "name": "Twirling Stabs", "level": 1, "initiative": 38,
+      "top": {
+        "behavior": { "attack": { "value": 2, "range": 0, "target": "ALL_ADJACENT" } }
+      },
+      "bottom": {
+        "behavior": { "move": { "value": 2 } }
+      }
+    },
+    {
+      "id": "rg-07", "name": "Shield Spikes", "level": 1, "initiative": 41,
+      "top": {
+        "behavior": { "shield": 1, "retaliate": 2 }
+      },
+      "bottom": {
+        "behavior": { "move": { "value": 3 } }
+      }
+    },
+    {
+      "id": "rg-08", "name": "Flaming Sickle", "level": 1, "initiative": 63,
+      "top": {
+        "behavior": { "attack": { "value": 2, "range": 0, "target": "SINGLE" }, "produceElement": "FIRE" }
+      },
+      "bottom": {
+        "behavior": { "move": { "value": 2 } }
+      }
+    },
+    {
+      "id": "rg-09", "name": "Blinding Sickle", "level": 1, "initiative": 87,
+      "top": {
+        "behavior": { "attack": { "value": 3, "range": 0, "target": "SINGLE" }, "xp": 1 }
+      },
+      "bottom": {
+        "behavior": { "move": { "value": 4 } }
+      }
+    },
+    {
+      "id": "rg-10", "name": "Desert Night", "level": 1, "initiative": 90,
+      "top": {
+        "behavior": { "heal": 3 }
+      },
+      "bottom": {
+        "behavior": { "move": { "value": 4 }, "loot": 1 }
+      }
+    },
+    {
+      "id": "rg-x1", "name": "Warrior of the Sun", "level": -1, "initiative": 13,
+      "top": {
+        "behavior": { "attack": { "value": 2, "range": 0, "target": "SINGLE" }, "produceElement": "LIGHT" }
+      },
+      "bottom": {
+        "behavior": { "move": { "value": 3 } }
+      }
+    },
+    {
+      "id": "rg-x2", "name": "Blade Dance", "level": -1, "initiative": 29,
+      "top": {
+        "behavior": { "attack": { "value": 1, "range": 0, "target": "ALL_ADJACENT" } }
+      },
+      "bottom": {
+        "behavior": { "move": { "value": 3 } }
+      }
+    },
+    {
+      "id": "rg-x3", "name": "Precision Strike", "level": -1, "initiative": 40,
+      "top": {
+        "behavior": { "attack": { "value": 3, "range": 0, "target": "SINGLE", "pierce": 2 } }
+      },
+      "bottom": {
+        "behavior": { "move": { "value": 2 } }
+      }
+    }
+  ]
+}

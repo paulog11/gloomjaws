@@ -60,8 +60,9 @@ const store = useGameStore()
 const uiStore = useUIStore()
 
 const monsterGroups = computed(() => {
-  const groups = new Map<string, typeof store.gameState.value.monsters>()
-  for (const monster of store.gameState!.value!.monsters) {
+  if (!store.gameState) return []
+  const groups = new Map<string, typeof store.gameState.monsters>()
+  for (const monster of store.gameState.monsters) {
     if (!groups.has(monster.monsterId)) groups.set(monster.monsterId, [])
     groups.get(monster.monsterId)!.push(monster)
   }
