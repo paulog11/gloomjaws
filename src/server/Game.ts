@@ -151,16 +151,22 @@ export class Game {
   processPlayerAction(payload: PlayerInputPayload): void {
     const player = this.getPlayerByPlayerId(payload.playerId)
     if (!player) throw new Error(`Player ${payload.playerId} not found`)
+
+    // Card selection happens simultaneously — skip active-actor check
+    if (payload.action === 'SELECT_CARDS') {
+      if (this.phase !== Phase.CARD_SELECTION) throw new Error('Not in card selection phase')
+      if (!this.waitingForPlayerIds.includes(payload.playerId)) throw new Error('Already submitted cards')
+      this.processCardSelection(
+        payload.playerId,
+        (payload.data?.topCardId as string),
+        (payload.data?.bottomCardId as string),
+      )
+      return
+    }
+
     if (this.activeActorId !== player.id) throw new Error('Not this player\'s turn')
 
     switch (payload.action as ActionType) {
-      case 'SELECT_CARDS':
-        this.processCardSelection(
-          payload.playerId,
-          (payload.data?.topCardId as string),
-          (payload.data?.bottomCardId as string),
-        )
-        break
 
       case 'MOVE': {
         const toSpaceId = payload.data?.spaceId as string

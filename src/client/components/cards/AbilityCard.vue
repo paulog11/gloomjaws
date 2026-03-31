@@ -3,15 +3,17 @@
     <div class="card-name">{{ card.name }}</div>
     <div class="card-initiative">{{ card.initiative }}</div>
 
-    <div class="card-half top-half" @click.stop="$emit('play-top', card.id)">
+    <div class="card-half top-half" :class="{ 'half-picked': topPicked }" @click.stop="onTopClick">
       <BehaviorDisplay :behavior="card.top.behavior" />
+      <span v-if="topPicked" class="pick-label">TOP</span>
       <span v-if="card.top.lossOnUse" class="loss-icon" title="Loss card">✖</span>
     </div>
 
     <div class="card-divider" />
 
-    <div class="card-half bottom-half" @click.stop="$emit('play-bottom', card.id)">
+    <div class="card-half bottom-half" :class="{ 'half-picked': bottomPicked }" @click.stop="onBottomClick">
       <BehaviorDisplay :behavior="card.bottom.behavior" />
+      <span v-if="bottomPicked" class="pick-label">BTM</span>
       <span v-if="card.bottom.persistent" class="persistent-icon" title="Persistent">♾</span>
     </div>
   </div>
@@ -21,16 +23,28 @@
 import type { IAbilityCard } from '../../../common/types'
 import BehaviorDisplay from './BehaviorDisplay.vue'
 
-defineProps<{
+const props = defineProps<{
   card: IAbilityCard
   isSelected: boolean
+  topPicked?: boolean
+  bottomPicked?: boolean
 }>()
 
-defineEmits<{
+const emit = defineEmits<{
   click: []
   'play-top': [cardId: string]
   'play-bottom': [cardId: string]
 }>()
+
+function onTopClick() {
+  console.log('[AbilityCard] top half clicked:', props.card.id, props.card.name)
+  emit('play-top', props.card.id)
+}
+
+function onBottomClick() {
+  console.log('[AbilityCard] bottom half clicked:', props.card.id, props.card.name)
+  emit('play-bottom', props.card.id)
+}
 </script>
 
 <style scoped>
@@ -117,5 +131,21 @@ defineEmits<{
   right: 0.1rem;
   font-size: 0.6rem;
   color: #4a7a4a;
+}
+
+.half-picked {
+  background: rgba(200, 148, 42, 0.2);
+  outline: 1px solid #c8942a;
+  border-radius: 3px;
+}
+
+.pick-label {
+  position: absolute;
+  top: 0.1rem;
+  left: 0.15rem;
+  font-size: 0.5rem;
+  font-weight: 700;
+  color: #c8942a;
+  letter-spacing: 0.05em;
 }
 </style>

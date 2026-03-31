@@ -7,8 +7,23 @@ export const useUIStore = defineStore('ui', () => {
   const hoveredSpaceId = ref<string | null>(null)
   const showLog = ref(false)
 
+  // Card selection phase: two-card picks
+  const topCardId = ref<string | null>(null)
+  const bottomCardId = ref<string | null>(null)
+
   function selectCard(cardId: string | null) {
     selectedCardId.value = cardId
+  }
+
+  function pickTopCard(cardId: string | null) {
+    topCardId.value = cardId
+    // Can't use the same card for both halves
+    if (bottomCardId.value === cardId) bottomCardId.value = null
+  }
+
+  function pickBottomCard(cardId: string | null) {
+    bottomCardId.value = cardId
+    if (topCardId.value === cardId) topCardId.value = null
   }
 
   function selectTarget(actorId: string | null) {
@@ -26,6 +41,8 @@ export const useUIStore = defineStore('ui', () => {
   function clearSelections() {
     selectedCardId.value = null
     selectedTargetId.value = null
+    topCardId.value = null
+    bottomCardId.value = null
   }
 
   return {
@@ -33,7 +50,11 @@ export const useUIStore = defineStore('ui', () => {
     selectedTargetId,
     hoveredSpaceId,
     showLog,
+    topCardId,
+    bottomCardId,
     selectCard,
+    pickTopCard,
+    pickBottomCard,
     selectTarget,
     hoverSpace,
     toggleLog,

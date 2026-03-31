@@ -89,13 +89,18 @@ export const useGameStore = defineStore('game', () => {
   }
 
   async function sendAction(action: ActionType, data?: Record<string, unknown>): Promise<void> {
-    if (!gameState.value || !localPlayerId.value) return
+    console.log('[GameStore] sendAction:', action, data, '| playerId:', localPlayerId.value)
+    if (!gameState.value || !localPlayerId.value) {
+      console.warn('[GameStore] sendAction aborted — no gameState or localPlayerId')
+      return
+    }
     const payload: PlayerInputPayload = {
       gameId: gameState.value.gameId,
       playerId: localPlayerId.value,
       action,
       data,
     }
+    console.log('[GameStore] POST /api/game/input payload:', JSON.stringify(payload))
     await apiCall(async () => {
       const res = await fetch(`${API}/input`, {
         method: 'POST',
@@ -103,10 +108,12 @@ export const useGameStore = defineStore('game', () => {
         body: JSON.stringify(payload),
       })
       gameState.value = await handleResponse(res)
+      console.log('[GameStore] response phase:', gameState.value?.phase, '| waitingFor:', gameState.value?.waitingForPlayerIds)
     })
   }
 
   async function selectCards(topCardId: string, bottomCardId: string): Promise<void> {
+    console.log('[GameStore] selectCards — top:', topCardId, '| bottom:', bottomCardId)
     await sendAction('SELECT_CARDS', { topCardId, bottomCardId })
   }
 
