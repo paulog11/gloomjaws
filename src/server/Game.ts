@@ -94,7 +94,7 @@ export class Game {
     this.grid = new HexGrid(this.scenario.spaces)
     this.phase = Phase.CARD_SELECTION
     this.round = 1
-    this.waitingForPlayerIds = Array.from(this.players.keys())
+    this.waitingForPlayerIds = Array.from(this.players.values()).map(p => p.playerId)
     this.addLog('system', `Scenario ${this.scenarioId} started — Round 1`)
   }
 
@@ -352,7 +352,7 @@ export class Game {
     if (this.scenarioResult === ScenarioResult.IN_PROGRESS) {
       this.round++
       this.phase = Phase.CARD_SELECTION
-      this.waitingForPlayerIds = Array.from(this.players.keys())
+      this.waitingForPlayerIds = Array.from(this.players.values()).map(p => p.playerId)
       this.addLog('system', `Round ${this.round} — card selection`)
     }
   }
