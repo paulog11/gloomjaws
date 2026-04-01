@@ -13,6 +13,7 @@
           :occupant="occupantOf(space)"
           :is-hovered="uiStore.hoveredSpaceId === space.id"
           :is-selected="false"
+          :is-targetable="isTargetable(space)"
           @click="onSpaceClick(space)"
           @mouseenter="uiStore.hoverSpace(space.id)"
           @mouseleave="uiStore.hoverSpace(null)"
@@ -66,9 +67,32 @@ function occupantOf(space: ISpace) {
   return null
 }
 
+function isTargetable(space: ISpace): boolean {
+  if (uiStore.actionMode !== 'attack' || !store.isMyTurn) return false
+  if (!space.occupantId) return false
+  return store.gameState?.monsters.some(m => m.id === space.occupantId) ?? false
+}
+
 function onSpaceClick(space: ISpace) {
-  if (store.isMyTurn) {
+  if (!store.isMyTurn) return
+
+  const mode = uiStore.actionMode
+
+  if (mode === 'attack' && space.occupantId) {
+    // Check if the occupant is a monster
+    const monster = store.gameState?.monsters.find(m => m.id === space.occupantId)
+    if (monster && uiStore.actionCardId) {
+      console.log('[HexBoard] attacking monster:', monster.id, '| card:', uiStore.actionCardId, '| useTop:', uiStore.actionUseTop)
+      store.attackTarget(uiStore.actionCardId, uiStore.actionUseTop, monster.id)
+      uiStore.clearAction()
+      return
+    }
+  }
+
+  if (mode === 'move' || mode === 'none') {
+    console.log('[HexBoard] moving to space:', space.id)
     store.moveToSpace(space.id)
+    if (mode === 'move') uiStore.clearAction()
   }
 }
 </script>

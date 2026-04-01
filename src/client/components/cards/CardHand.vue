@@ -35,8 +35,33 @@
       </button>
     </div>
 
-    <!-- In-turn actions -->
-    <div class="hand-actions" v-if="store.isMyTurn && !isCardSelectionPhase">
+    <!-- Round actions phase: use selected card halves -->
+    <div v-if="isMyRoundTurn" class="action-ui">
+      <div class="action-label">Your turn — pick an action:</div>
+      <div class="action-buttons">
+        <button
+          v-if="topHalfCard"
+          class="btn-action"
+          :class="{ active: uiStore.actionCardId === topHalfCard.id && uiStore.actionUseTop }"
+          @click="activateAction(topHalfCard, true)"
+        >
+          <span class="action-card-name">{{ topHalfCard.name }}</span>
+          <span class="action-half-label">TOP</span>
+          <span class="action-desc">{{ describeBehavior(topHalfCard.top.behavior) }}</span>
+        </button>
+        <button
+          v-if="bottomHalfCard"
+          class="btn-action"
+          :class="{ active: uiStore.actionCardId === bottomHalfCard.id && !uiStore.actionUseTop }"
+          @click="activateAction(bottomHalfCard, false)"
+        >
+          <span class="action-card-name">{{ bottomHalfCard.name }}</span>
+          <span class="action-half-label">BTM</span>
+          <span class="action-desc">{{ describeBehavior(bottomHalfCard.bottom.behavior) }}</span>
+        </button>
+      </div>
+      <div v-if="uiStore.actionMode === 'attack'" class="action-hint">Click a monster on the board to attack</div>
+      <div v-if="uiStore.actionMode === 'move'" class="action-hint">Click a hex on the board to move</div>
       <button @click="store.endTurn()" class="btn-end-turn" :disabled="store.loading">
         End Turn
       </button>
@@ -46,9 +71,10 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import type { IPlayerBase } from '../../../common/types'
+import type { IPlayerBase, IAbilityCard, Behavior } from '../../../common/types'
 import { useGameStore } from '../../stores/game'
 import { useUIStore } from '../../stores/ui'
+import type { ActionMode } from '../../stores/ui'
 import { Phase } from '../../../common/Phase'
 import AbilityCard from './AbilityCard.vue'
 
@@ -63,6 +89,23 @@ const isCardSelectionPhase = computed(
   () => store.phase === Phase.CARD_SELECTION && store.isWaitingForMe,
 )
 
+const isMyRoundTurn = computed(
+  () => store.phase === Phase.ROUND_ACTIONS && store.isMyTurn,
+)
+
+// The two cards the player selected for this round
+const topHalfCard = computed(() => {
+  const sel = props.player.selectedCards
+  if (!sel) return null
+  return activeCards.value.find(c => c.id === sel[0]) ?? null
+})
+
+const bottomHalfCard = computed(() => {
+  const sel = props.player.selectedCards
+  if (!sel) return null
+  return activeCards.value.find(c => c.id === sel[1]) ?? null
+})
+
 const topCardName = computed(() => {
   if (!uiStore.topCardId) return null
   return activeCards.value.find(c => c.id === uiStore.topCardId)?.name ?? uiStore.topCardId
@@ -73,23 +116,51 @@ const bottomCardName = computed(() => {
   return activeCards.value.find(c => c.id === uiStore.bottomCardId)?.name ?? uiStore.bottomCardId
 })
 
+function describeBehavior(b: Behavior): string {
+  const parts: string[] = []
+  if (b.attack) parts.push(`Atk ${b.attack.value}${b.attack.range > 1 ? ` Rng ${b.attack.range}` : ''}`)
+  if (b.move) parts.push(`Move ${b.move.value}`)
+  if (b.heal) parts.push(`Heal ${b.heal}`)
+  if (b.shield) parts.push(`Shield ${b.shield}`)
+  if (b.retaliate) parts.push(`Ret ${b.retaliate}`)
+  if (b.loot) parts.push('Loot')
+  return parts.join(', ') || 'No effect'
+}
+
+function primaryMode(b: Behavior): ActionMode {
+  if (b.attack) return 'attack'
+  if (b.move) return 'move'
+  if (b.heal) return 'heal'
+  return 'none'
+}
+
+function activateAction(card: IAbilityCard, useTop: boolean) {
+  const behavior = useTop ? card.top.behavior : card.bottom.behavior
+  const mode = primaryMode(behavior)
+  console.log('[CardHand] activateAction:', card.name, useTop ? 'TOP' : 'BTM', '| mode:', mode)
+  // Toggle off if already active
+  if (uiStore.actionCardId === card.id && uiStore.actionUseTop === useTop) {
+    uiStore.clearAction()
+  } else {
+    uiStore.setAction(mode, card.id, useTop)
+  }
+}
+
 function onCardClick(cardId: string) {
-  console.log('[CardHand] card clicked:', cardId, '| phase:', store.phase, '| isCardSelection:', isCardSelectionPhase.value)
+  console.log('[CardHand] card clicked:', cardId, '| phase:', store.phase)
   uiStore.selectCard(uiStore.selectedCardId === cardId ? null : cardId)
 }
 
 function onPlayTop(cardId: string) {
-  console.log('[CardHand] play-top:', cardId, '| isCardSelection:', isCardSelectionPhase.value, '| isWaitingForMe:', store.isWaitingForMe)
+  console.log('[CardHand] play-top:', cardId, '| isCardSelection:', isCardSelectionPhase.value)
   if (!isCardSelectionPhase.value) return
   uiStore.pickTopCard(uiStore.topCardId === cardId ? null : cardId)
-  console.log('[CardHand] top picked:', uiStore.topCardId, '| bottom picked:', uiStore.bottomCardId)
 }
 
 function onPlayBottom(cardId: string) {
-  console.log('[CardHand] play-bottom:', cardId, '| isCardSelection:', isCardSelectionPhase.value, '| isWaitingForMe:', store.isWaitingForMe)
+  console.log('[CardHand] play-bottom:', cardId, '| isCardSelection:', isCardSelectionPhase.value)
   if (!isCardSelectionPhase.value) return
   uiStore.pickBottomCard(uiStore.bottomCardId === cardId ? null : cardId)
-  console.log('[CardHand] top picked:', uiStore.topCardId, '| bottom picked:', uiStore.bottomCardId)
 }
 
 async function submitCardSelection() {
@@ -161,9 +232,69 @@ async function submitCardSelection() {
   cursor: default;
 }
 
-.hand-actions {
+/* Round actions UI */
+.action-ui {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.action-label {
+  font-size: 0.78rem;
+  color: #c8942a;
+  font-family: 'Cinzel', serif;
+}
+
+.action-buttons {
   display: flex;
   gap: 0.5rem;
+}
+
+.btn-action {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #2a2018;
+  border: 1px solid #5a3e1b;
+  color: #d4b483;
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+  min-width: 90px;
+}
+
+.btn-action:hover {
+  border-color: #8b6020;
+  background: #3a2a18;
+}
+
+.btn-action.active {
+  border-color: #c8942a;
+  background: #3a3018;
+  box-shadow: 0 0 6px rgba(200, 148, 42, 0.3);
+}
+
+.action-card-name {
+  font-size: 0.62rem;
+  color: #8b7355;
+}
+
+.action-half-label {
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: #c8942a;
+}
+
+.action-desc {
+  font-size: 0.7rem;
+}
+
+.action-hint {
+  font-size: 0.72rem;
+  color: #8ba070;
+  font-style: italic;
 }
 
 .btn-end-turn {
@@ -174,6 +305,7 @@ async function submitCardSelection() {
   border-radius: 4px;
   cursor: pointer;
   font-size: 0.85rem;
+  margin-left: auto;
 }
 
 .btn-end-turn:disabled {

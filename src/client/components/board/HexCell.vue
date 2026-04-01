@@ -9,7 +9,7 @@
     <!-- Hex background -->
     <polygon
       :points="hexPoints"
-      :class="['hex-bg', `terrain-${space.terrain.toLowerCase()}`, { hovered: isHovered, selected: isSelected }]"
+      :class="['hex-bg', `terrain-${space.terrain.toLowerCase()}`, { hovered: isHovered, selected: isSelected, targetable: isTargetable }]"
     />
 
     <!-- Occupant token -->
@@ -48,6 +48,7 @@ const props = defineProps<{
   occupant: { type: 'player' | 'monster'; data: IPlayerBase | IMonsterToken } | null
   isHovered: boolean
   isSelected: boolean
+  isTargetable?: boolean
 }>()
 
 defineEmits<{
@@ -101,8 +102,14 @@ const tokenLabel = computed(() => {
 .terrain-trap        { fill: #2a1010; stroke: #6a2020; }
 .terrain-corridor    { fill: #222018; stroke: #3a3020; }
 
-.hex-bg.hovered   { fill: #3a3020; }
-.hex-bg.selected  { stroke: #c8942a; stroke-width: 2.5; }
+.hex-bg.hovered     { fill: #3a3020; }
+.hex-bg.selected    { stroke: #c8942a; stroke-width: 2.5; }
+.hex-bg.targetable  { stroke: #d44040; stroke-width: 2.5; animation: pulse-target 1s infinite; }
+
+@keyframes pulse-target {
+  0%, 100% { stroke-opacity: 1; }
+  50% { stroke-opacity: 0.4; }
+}
 
 .occupant-circle {
   stroke-width: 1.5;

@@ -1,6 +1,8 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
+export type ActionMode = 'none' | 'move' | 'attack' | 'heal'
+
 export const useUIStore = defineStore('ui', () => {
   const selectedCardId = ref<string | null>(null)
   const selectedTargetId = ref<string | null>(null)
@@ -11,19 +13,36 @@ export const useUIStore = defineStore('ui', () => {
   const topCardId = ref<string | null>(null)
   const bottomCardId = ref<string | null>(null)
 
+  // Round actions phase: which card half is being used
+  const actionMode = ref<ActionMode>('none')
+  const actionCardId = ref<string | null>(null)
+  const actionUseTop = ref(false)
+
   function selectCard(cardId: string | null) {
     selectedCardId.value = cardId
   }
 
   function pickTopCard(cardId: string | null) {
     topCardId.value = cardId
-    // Can't use the same card for both halves
     if (bottomCardId.value === cardId) bottomCardId.value = null
   }
 
   function pickBottomCard(cardId: string | null) {
     bottomCardId.value = cardId
     if (topCardId.value === cardId) topCardId.value = null
+  }
+
+  function setAction(mode: ActionMode, cardId: string | null, useTop: boolean) {
+    console.log('[UI] setAction:', mode, '| cardId:', cardId, '| useTop:', useTop)
+    actionMode.value = mode
+    actionCardId.value = cardId
+    actionUseTop.value = useTop
+  }
+
+  function clearAction() {
+    actionMode.value = 'none'
+    actionCardId.value = null
+    actionUseTop.value = false
   }
 
   function selectTarget(actorId: string | null) {
@@ -43,6 +62,7 @@ export const useUIStore = defineStore('ui', () => {
     selectedTargetId.value = null
     topCardId.value = null
     bottomCardId.value = null
+    clearAction()
   }
 
   return {
@@ -52,9 +72,14 @@ export const useUIStore = defineStore('ui', () => {
     showLog,
     topCardId,
     bottomCardId,
+    actionMode,
+    actionCardId,
+    actionUseTop,
     selectCard,
     pickTopCard,
     pickBottomCard,
+    setAction,
+    clearAction,
     selectTarget,
     hoverSpace,
     toggleLog,

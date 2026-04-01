@@ -138,6 +138,7 @@ export const useGameStore = defineStore('game', () => {
       await fn()
     } catch (e) {
       error.value = (e as Error).message
+      console.error('[GameStore] apiCall error:', error.value)
     } finally {
       loading.value = false
     }
