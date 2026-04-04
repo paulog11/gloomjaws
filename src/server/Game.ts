@@ -282,7 +282,7 @@ export class Game {
   }
 
   private autoResolveMonsterTurn(): void {
-    while (this.activeActorId) {
+    while (this.activeActorId && this.phase === Phase.ROUND_ACTIONS) {
       const monster = this.scenario.monsters.get(this.activeActorId)
       if (!monster) break  // It's a player's turn
 
@@ -324,6 +324,7 @@ export class Game {
 
   private transitionToEndOfRound(): void {
     this.phase = Phase.END_OF_ROUND
+    this.activeActorId = null
 
     // Tick conditions and apply end-of-round damage
     for (const player of this.players.values()) {

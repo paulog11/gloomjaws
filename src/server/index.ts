@@ -1,6 +1,9 @@
 import express from 'express'
 import { gameRouter } from './routes/game.js'
 
+// tsx watch adds exit listeners on each reload; raise limit to avoid false warning
+process.setMaxListeners(20)
+
 const app = express()
 const PORT = process.env.PORT ?? 3000
 
