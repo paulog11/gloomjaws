@@ -14,13 +14,31 @@
 
     <!-- Occupant token -->
     <template v-if="occupant">
+      <defs>
+        <clipPath :id="`token-clip-${space.coord.q}-${space.coord.r}`">
+          <circle :r="size * 0.38" />
+        </clipPath>
+      </defs>
       <circle
         :r="size * 0.38"
         :class="['occupant-circle', occupant.type === 'player' ? 'player-token' : (occupant.data as IMonsterToken).isElite ? 'elite-token' : 'monster-token']"
       />
-      <text class="token-label" text-anchor="middle" dominant-baseline="central" :font-size="size * 0.28">
+      <!-- token label shown when no image is available -->
+      <text v-if="tokenImageFailed" class="token-label" text-anchor="middle" dominant-baseline="central" :font-size="size * 0.28">
         {{ tokenLabel }}
       </text>
+      <!-- token image overlaid on the circle -->
+      <image
+        v-if="!tokenImageFailed"
+        :href="occupantImageUrl"
+        :x="-size * 0.38"
+        :y="-size * 0.38"
+        :width="size * 0.76"
+        :height="size * 0.76"
+        :clip-path="`url(#token-clip-${space.coord.q}-${space.coord.r})`"
+        preserveAspectRatio="xMidYMid slice"
+        @error="tokenImageFailed = true"
+      />
     </template>
 
     <!-- Loot token -->
@@ -38,9 +56,10 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref, watch } from 'vue'
 import type { ISpace, IPlayerBase, IMonsterToken } from '../../../common/types'
 import { TerrainType } from '../../../common/types'
+import { characterImageUrl, monsterImageUrl } from '../../utils/images'
 
 const props = defineProps<{
   space: ISpace
@@ -56,6 +75,17 @@ defineEmits<{
   mouseenter: []
   mouseleave: []
 }>()
+
+const tokenImageFailed = ref(false)
+watch(() => props.occupant?.data.id, () => { tokenImageFailed.value = false })
+
+const occupantImageUrl = computed(() => {
+  if (!props.occupant) return ''
+  if (props.occupant.type === 'player') {
+    return characterImageUrl((props.occupant.data as IPlayerBase).cardClass)
+  }
+  return monsterImageUrl((props.occupant.data as IMonsterToken).monsterId)
+})
 
 // Flat-top hex pixel center
 const cx = computed(() => props.size * (3 / 2) * props.space.coord.q)

@@ -1,6 +1,16 @@
 <template>
   <div class="monster-panel">
     <div class="panel-header">
+      <div class="monster-portrait-wrapper" :title="monsterName">
+        <img
+          v-show="!portraitFailed"
+          :src="monsterImageUrl(monsterName)"
+          :alt="monsterName"
+          class="monster-portrait-img"
+          @error="portraitFailed = true"
+        />
+        <div v-if="portraitFailed" class="monster-portrait-placeholder">{{ monsterName.charAt(0) }}</div>
+      </div>
       <span class="monster-name">{{ monsterName }}</span>
       <span class="initiative" v-if="groupInitiative !== null">Init {{ groupInitiative }}</span>
     </div>
@@ -28,10 +38,11 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref, watch } from 'vue'
 import type { IMonsterToken } from '../../common/types'
 import { ConditionType } from '../../common/types'
 import { useGameStore } from '../stores/game'
+import { monsterImageUrl } from '../utils/images'
 
 const props = defineProps<{
   monsterName: string
@@ -39,6 +50,9 @@ const props = defineProps<{
 }>()
 
 const store = useGameStore()
+
+const portraitFailed = ref(false)
+watch(() => props.monsterName, () => { portraitFailed.value = false })
 
 const groupInitiative = computed(() =>
   props.tokens[0]?.initiative !== 99 ? props.tokens[0]?.initiative : null,
@@ -74,9 +88,35 @@ function conditionIcon(type: ConditionType): string {
 
 .panel-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  gap: 0.4rem;
   margin-bottom: 0.4rem;
+}
+
+.monster-portrait-wrapper {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  border-radius: 3px;
+  overflow: hidden;
+  border: 1px dashed #5a1a1a;
+  background: #1a0808;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.monster-portrait-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.monster-portrait-placeholder {
+  font-family: 'Cinzel', serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #5a1a1a;
 }
 
 .monster-name {
@@ -88,6 +128,7 @@ function conditionIcon(type: ConditionType): string {
 .initiative {
   font-size: 0.75rem;
   color: #8b5555;
+  margin-left: auto;
 }
 
 .token-list {

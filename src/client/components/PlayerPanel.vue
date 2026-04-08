@@ -1,8 +1,20 @@
 <template>
   <div class="player-panel" :class="{ active: isActive, exhausted: player.exhausted, me: isMe }">
     <div class="panel-header">
-      <span class="player-name">{{ player.name }}</span>
-      <span class="class-name">{{ classLabel }}</span>
+      <div class="portrait-wrapper" :title="classLabel">
+        <img
+          v-show="!portraitFailed"
+          :src="characterImageUrl(player.cardClass)"
+          :alt="classLabel"
+          class="portrait-img"
+          @error="portraitFailed = true"
+        />
+        <div v-if="portraitFailed" class="portrait-placeholder">{{ classLabel.charAt(0) }}</div>
+      </div>
+      <div class="header-info">
+        <span class="player-name">{{ player.name }}</span>
+        <span class="class-name">{{ classLabel }}</span>
+      </div>
       <span v-if="isActive" class="turn-indicator">▶</span>
     </div>
 
@@ -34,15 +46,19 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref, watch } from 'vue'
 import type { IPlayerBase } from '../../common/types'
 import { ConditionType, CardClass } from '../../common/types'
+import { characterImageUrl } from '../utils/images'
 
 const props = defineProps<{
   player: IPlayerBase
   isActive: boolean
   isMe: boolean
 }>()
+
+const portraitFailed = ref(false)
+watch(() => props.player.cardClass, () => { portraitFailed.value = false })
 
 const hpPercent = computed(() =>
   props.player.maxHp > 0 ? (props.player.hp / props.player.maxHp) * 100 : 0,
@@ -104,6 +120,39 @@ function conditionIcon(type: ConditionType): string {
   margin-bottom: 0.4rem;
 }
 
+.portrait-wrapper {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px dashed #5a3e1b;
+  background: #1a1410;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.portrait-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.portrait-placeholder {
+  font-family: 'Cinzel', serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #5a3e1b;
+}
+
+.header-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
 .player-name {
   font-weight: 600;
   font-size: 0.9rem;
@@ -111,9 +160,8 @@ function conditionIcon(type: ConditionType): string {
 }
 
 .class-name {
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   color: #8b7355;
-  margin-left: auto;
 }
 
 .turn-indicator {

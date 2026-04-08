@@ -3,6 +3,17 @@
     <div class="card-name">{{ card.name }}</div>
     <div class="card-initiative">{{ card.initiative }}</div>
 
+    <div class="card-art-wrapper" :title="card.name">
+      <img
+        v-show="!artFailed"
+        :src="cardImageUrl(card.id)"
+        :alt="card.name"
+        class="card-art-img"
+        @error="artFailed = true"
+      />
+      <div v-if="artFailed" class="card-art-placeholder">⚔</div>
+    </div>
+
     <div class="card-half top-half" :class="{ 'half-picked': topPicked }" @click.stop="onTopClick">
       <BehaviorDisplay :behavior="card.top.behavior" />
       <span v-if="topPicked" class="pick-label">TOP</span>
@@ -20,8 +31,10 @@
 </template>
 
 <script setup lang="ts">
+import { ref, watch } from 'vue'
 import type { IAbilityCard } from '../../../common/types'
 import BehaviorDisplay from './BehaviorDisplay.vue'
+import { cardImageUrl } from '../../utils/images'
 
 const props = defineProps<{
   card: IAbilityCard
@@ -29,6 +42,9 @@ const props = defineProps<{
   topPicked?: boolean
   bottomPicked?: boolean
 }>()
+
+const artFailed = ref(false)
+watch(() => props.card.id, () => { artFailed.value = false })
 
 const emit = defineEmits<{
   click: []
@@ -51,7 +67,7 @@ function onBottomClick() {
 .ability-card {
   width: 100px;
   min-width: 100px;
-  height: 150px;
+  height: 170px;
   background: #2a1f14;
   border: 1px solid #5a3e1b;
   border-radius: 6px;
@@ -94,6 +110,30 @@ function onBottomClick() {
   font-size: 0.65rem;
   color: #8b7355;
   font-weight: 700;
+}
+
+.card-art-wrapper {
+  height: 30px;
+  border-radius: 3px;
+  overflow: hidden;
+  border: 1px dashed #3a2a10;
+  background: #1a1208;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.15rem;
+  flex-shrink: 0;
+}
+
+.card-art-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-art-placeholder {
+  font-size: 0.8rem;
+  color: #3a2a10;
 }
 
 .card-half {
