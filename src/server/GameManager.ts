@@ -9,6 +9,7 @@ import {
   IAbilityCard,
   CreateGamePayload,
   CardClass,
+  GameMode,
 } from '../common/types.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -29,24 +30,31 @@ function loadMonsterDefs(): Map<string, IMonsterDef> {
   return defs
 }
 
-function loadScenarioDef(scenarioId: number): IScenarioDef {
+function loadScenarioDef(scenarioId: number, gameMode: GameMode): IScenarioDef {
   const file = `scenario-${String(scenarioId).padStart(2, '0')}.json`
+  const scenarioDir = gameMode === GameMode.POKEMON
+    ? path.join(DATA_DIR, 'pokemon', 'scenarios')
+    : path.join(DATA_DIR, 'scenarios')
   return JSON.parse(
-    readFileSync(path.join(DATA_DIR, 'scenarios', file), 'utf-8'),
+    readFileSync(path.join(scenarioDir, file), 'utf-8'),
   ) as IScenarioDef
 }
 
+// Paths are relative to DATA_DIR
 const CLASS_FILE_MAP: Record<CardClass, string> = {
-  [CardClass.VALRATH_RED_GUARD]: 'red-guard.json',
-  [CardClass.INOX_HATCHET]: 'hatchet.json',
-  [CardClass.QUATRYL_DEMOLITIONIST]: 'demolitionist.json',
-  [CardClass.AESTHER_VOIDWARDEN]: 'voidwarden.json',
+  [CardClass.VALRATH_RED_GUARD]: path.join('characters', 'red-guard.json'),
+  [CardClass.INOX_HATCHET]: path.join('characters', 'hatchet.json'),
+  [CardClass.QUATRYL_DEMOLITIONIST]: path.join('characters', 'demolitionist.json'),
+  [CardClass.AESTHER_VOIDWARDEN]: path.join('characters', 'voidwarden.json'),
+  [CardClass.TREECKO]: path.join('pokemon', 'characters', 'treecko.json'),
+  [CardClass.TORCHIC]: path.join('pokemon', 'characters', 'torchic.json'),
+  [CardClass.MUDKIP]: path.join('pokemon', 'characters', 'mudkip.json'),
 }
 
 function loadCharacterCards(cardClass: CardClass): IAbilityCard[] {
-  const file = CLASS_FILE_MAP[cardClass]
-  if (!file) return []
-  const filePath = path.join(DATA_DIR, 'characters', file)
+  const relativePath = CLASS_FILE_MAP[cardClass]
+  if (!relativePath) return []
+  const filePath = path.join(DATA_DIR, relativePath)
   try {
     const data = JSON.parse(readFileSync(filePath, 'utf-8'))
     return data.cards as IAbilityCard[]
@@ -56,9 +64,9 @@ function loadCharacterCards(cardClass: CardClass): IAbilityCard[] {
 }
 
 export async function createGame(payload: CreateGamePayload): Promise<Game> {
-  const scenarioDef = loadScenarioDef(payload.scenarioId)
+  const scenarioDef = loadScenarioDef(payload.scenarioId, payload.gameMode)
   const monsterDefs = loadMonsterDefs()
-  const game = new Game(scenarioDef, monsterDefs)
+  const game = new Game(scenarioDef, monsterDefs, payload.gameMode)
 
   // Add players and load their ability cards
   for (let i = 0; i < payload.playerNames.length; i++) {

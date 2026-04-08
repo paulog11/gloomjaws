@@ -15,6 +15,7 @@ import {
   CreateGamePayload,
   IMonsterDef,
   IScenarioDef,
+  GameMode,
 } from '../common/types.js'
 import { Player } from './Player.js'
 import { Scenario } from './Scenario.js'
@@ -37,6 +38,7 @@ function buildInitialElements(): ElementState {
 
 export class Game {
   gameId: string
+  gameMode: GameMode
   phase: Phase = Phase.LOBBY
   round: number = 0
   scenarioId: number
@@ -58,9 +60,11 @@ export class Game {
   constructor(
     scenarioDef: IScenarioDef,
     monsterDefs: Map<string, IMonsterDef>,
+    gameMode: GameMode = GameMode.GLOOMHAVEN,
     scenarioLevel = 1,
   ) {
     this.gameId = uuidv4()
+    this.gameMode = gameMode
     this.scenarioId = scenarioDef.id
     this.scenarioLevel = scenarioLevel
     this.scenario = new Scenario(scenarioDef)
@@ -440,6 +444,7 @@ export class Game {
     const scenarioData = this.scenario.serialize()
     return {
       gameId: this.gameId,
+      gameMode: this.gameMode,
       phase: this.phase,
       round: this.round,
       scenarioId: this.scenarioId,

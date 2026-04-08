@@ -60,6 +60,15 @@ export enum CardClass {
   INOX_HATCHET = 'INOX_HATCHET',
   QUATRYL_DEMOLITIONIST = 'QUATRYL_DEMOLITIONIST',
   AESTHER_VOIDWARDEN = 'AESTHER_VOIDWARDEN',
+  // Pokemon Journeys starters
+  TREECKO = 'TREECKO',
+  TORCHIC = 'TORCHIC',
+  MUDKIP = 'MUDKIP',
+}
+
+export enum GameMode {
+  GLOOMHAVEN = 'GLOOMHAVEN',
+  POKEMON = 'POKEMON',
 }
 
 export enum ModifierCardType {
@@ -306,6 +315,7 @@ export interface LogEntry {
 
 export interface SerializedGame {
   gameId: string
+  gameMode: GameMode
   phase: string             // Phase enum value
   round: number
   scenarioId: number
@@ -325,6 +335,7 @@ export interface SerializedGame {
 // ─── API Payloads ─────────────────────────────────────────────────────────────
 
 export interface CreateGamePayload {
+  gameMode: GameMode
   playerNames: string[]
   playerClasses: CardClass[]
   scenarioId: number

@@ -1,6 +1,6 @@
 import { Router, Request, Response } from 'express'
 import { createGame, getGame, persistGame } from '../GameManager.js'
-import { CreateGamePayload, PlayerInputPayload } from '../../common/types.js'
+import { CreateGamePayload, PlayerInputPayload, GameMode } from '../../common/types.js'
 
 export const gameRouter = Router()
 
@@ -10,6 +10,9 @@ gameRouter.post('/', async (req: Request, res: Response) => {
     const payload = req.body as CreateGamePayload
     if (!payload.playerNames?.length || !payload.playerClasses?.length || !payload.scenarioId) {
       return res.status(400).json({ error: 'playerNames, playerClasses, and scenarioId required' })
+    }
+    if (!payload.gameMode || !Object.values(GameMode).includes(payload.gameMode)) {
+      return res.status(400).json({ error: `gameMode must be one of: ${Object.values(GameMode).join(', ')}` })
     }
     if (payload.playerNames.length !== payload.playerClasses.length) {
       return res.status(400).json({ error: 'playerNames and playerClasses must have same length' })

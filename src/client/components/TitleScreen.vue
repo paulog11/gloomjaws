@@ -1,5 +1,6 @@
 <template>
   <div class="title-screen">
+    <button class="btn-back" @click="$emit('back')">← Back</button>
     <h1 class="title">Gloomhaven</h1>
     <h2 class="subtitle">Jaws of the Lion</h2>
 
@@ -41,7 +42,9 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { useGameStore } from '../stores/game'
-import type { CardClass } from '../../common/types'
+import { type CardClass, GameMode } from '../../common/types'
+
+defineEmits<{ back: [] }>()
 
 const store = useGameStore()
 
@@ -67,6 +70,7 @@ function removePlayer(index: number) {
 async function startGame() {
   await store.createGame(
     {
+      gameMode: GameMode.GLOOMHAVEN,
       playerNames: players.value.map(p => p.name),
       playerClasses: players.value.map(p => p.cardClass),
       scenarioId: scenarioId.value,
@@ -89,6 +93,24 @@ async function startGame() {
   background: #1a1410;
   color: #d4b483;
   padding: 2rem;
+  position: relative;
+}
+
+.btn-back {
+  position: absolute;
+  top: 1.5rem;
+  left: 1.5rem;
+  background: transparent;
+  border: 1px solid #5a3e1b;
+  color: #8b6914;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.btn-back:hover {
+  border-color: #c8942a;
 }
 
 .title {
