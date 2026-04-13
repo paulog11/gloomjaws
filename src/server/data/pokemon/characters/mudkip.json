@@ -1,6 +1,16 @@
 {
   "id": "MUDKIP",
   "name": "Mudkip",
+  "pokemonType": "WATER",
   "hp": [8, 9, 10, 11, 12, 13, 14, 15, 16, 17],
+  "baseStats": {
+    "attack": 70,
+    "defense": 50,
+    "specialAttack": 50,
+    "specialDefense": 50,
+    "speed": 40
+  },
+  "evolutionLevel": 16,
+  "evolvesInto": "MARSHTOMP",
   "cards": []
 }

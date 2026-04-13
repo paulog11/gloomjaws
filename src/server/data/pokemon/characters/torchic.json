@@ -1,6 +1,16 @@
 {
   "id": "TORCHIC",
   "name": "Torchic",
+  "pokemonType": "FIRE",
   "hp": [7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
+  "baseStats": {
+    "attack": 60,
+    "defense": 40,
+    "specialAttack": 70,
+    "specialDefense": 50,
+    "speed": 45
+  },
+  "evolutionLevel": 16,
+  "evolvesInto": "COMBUSKEN",
   "cards": []
 }
