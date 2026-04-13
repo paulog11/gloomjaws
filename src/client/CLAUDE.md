@@ -14,10 +14,8 @@ client/
 │   ├── game.ts          # Pinia store — all API calls, SerializedGame state
 │   └── ui.ts            # Ephemeral UI state (selected card, hover, log panel)
 └── components/
-    ├── App.vue                    # Root: mode routing (ModeSelectScreen → TitleScreen/PokemonTitleScreen → GameScreen)
-    ├── ModeSelectScreen.vue       # Home screen — choose Gloomhaven or Pokemon Journeys
+    ├── App.vue                    # Root: TitleScreen → GameScreen
     ├── TitleScreen.vue            # Gloomhaven setup form (players, classes, scenario)
-    ├── PokemonTitleScreen.vue     # Pokemon setup form (trainer name + starter picker)
     ├── GameScreen.vue             # Main layout (left panel / board / right panel / card hand)
     ├── GameHeader.vue             # Phase label, round, elements, log toggle
     ├── PlayerPanel.vue            # HP bar, XP, gold, conditions per player
@@ -40,13 +38,9 @@ client/
 ## Routing Logic (App.vue)
 
 ```
-gameState === null && selectedMode === null       → ModeSelectScreen
-gameState === null && selectedMode === GLOOMHAVEN → TitleScreen
-gameState === null && selectedMode === POKEMON    → PokemonTitleScreen
-gameState !== null                                → GameScreen
+gameState === null → TitleScreen
+gameState !== null → GameScreen
 ```
-
-`selectedMode` is a local `ref<GameMode | null>` in `App.vue`. Both title screens emit `back` to reset it.
 
 ## Store Patterns
 

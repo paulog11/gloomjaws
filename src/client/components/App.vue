@@ -1,25 +1,16 @@
 <template>
   <div class="app">
-    <template v-if="!store.gameState">
-      <ModeSelectScreen v-if="selectedMode === null" @select="selectedMode = $event" />
-      <TitleScreen v-else-if="selectedMode === GameMode.GLOOMHAVEN" @back="selectedMode = null" />
-      <PokemonTitleScreen v-else-if="selectedMode === GameMode.POKEMON" @back="selectedMode = null" />
-    </template>
+    <TitleScreen v-if="!store.gameState" />
     <GameScreen v-else />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
 import { useGameStore } from '../stores/game'
-import { GameMode } from '../../common/types'
-import ModeSelectScreen from './ModeSelectScreen.vue'
 import TitleScreen from './TitleScreen.vue'
-import PokemonTitleScreen from './PokemonTitleScreen.vue'
 import GameScreen from './GameScreen.vue'
 
 const store = useGameStore()
-const selectedMode = ref<GameMode | null>(null)
 </script>
 
 <style>
