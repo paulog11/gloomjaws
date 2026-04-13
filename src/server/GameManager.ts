@@ -18,12 +18,14 @@ const DATA_DIR = path.resolve(__dirname, 'data')
 // In-memory game cache
 const activeGames = new Map<string, Game>()
 
-function loadMonsterDefs(): Map<string, IMonsterDef> {
+function loadMonsterDefs(gameMode: GameMode): Map<string, IMonsterDef> {
   const defs = new Map<string, IMonsterDef>()
-  const files = ['bandit-guard.json', 'bandit-archer.json']
+  const [monstersDir, files] = gameMode === GameMode.POKEMON
+    ? [path.join(DATA_DIR, 'pokemon', 'monsters'), ['poochyena.json']]
+    : [path.join(DATA_DIR, 'monsters'), ['bandit-guard.json', 'bandit-archer.json']]
   for (const file of files) {
     const def = JSON.parse(
-      readFileSync(path.join(DATA_DIR, 'monsters', file), 'utf-8'),
+      readFileSync(path.join(monstersDir, file), 'utf-8'),
     ) as IMonsterDef
     defs.set(def.name, def)
   }
@@ -65,7 +67,7 @@ function loadCharacterCards(cardClass: CardClass): IAbilityCard[] {
 
 export async function createGame(payload: CreateGamePayload): Promise<Game> {
   const scenarioDef = loadScenarioDef(payload.scenarioId, payload.gameMode)
-  const monsterDefs = loadMonsterDefs()
+  const monsterDefs = loadMonsterDefs(payload.gameMode)
   const game = new Game(scenarioDef, monsterDefs, payload.gameMode)
 
   // Add players and load their ability cards

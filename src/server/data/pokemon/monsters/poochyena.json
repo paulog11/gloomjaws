@@ -1,0 +1,38 @@
+{
+  "name": "Poochyena",
+  "isBoss": false,
+  "levels": {
+    "1": {
+      "normal": { "hp": 8,  "move": 2, "attack": 2, "range": 0, "immunities": [] },
+      "elite":  { "hp": 11, "move": 3, "attack": 3, "range": 0, "immunities": [] }
+    },
+    "2": {
+      "normal": { "hp": 10, "move": 2, "attack": 2, "range": 0, "immunities": [] },
+      "elite":  { "hp": 13, "move": 3, "attack": 3, "range": 0, "immunities": [] }
+    },
+    "3": {
+      "normal": { "hp": 12, "move": 3, "attack": 3, "range": 0, "immunities": [] },
+      "elite":  { "hp": 16, "move": 3, "attack": 4, "range": 0, "immunities": [] }
+    }
+  },
+  "aiDeck": [
+    { "id": "py-01", "initiative": 24, "shuffle": false,
+      "top": { "attack": { "value": 2, "range": 0, "target": "SINGLE" } },
+      "bottom": { "move": { "value": 2 } } },
+    { "id": "py-02", "initiative": 38, "shuffle": false,
+      "top": { "move": { "value": 3 } },
+      "bottom": { "attack": { "value": 2, "range": 0, "target": "SINGLE" } } },
+    { "id": "py-03", "initiative": 15, "shuffle": false,
+      "top": { "attack": { "value": 3, "range": 0, "target": "SINGLE" } },
+      "bottom": { "move": { "value": 1 } } },
+    { "id": "py-04", "initiative": 52, "shuffle": false,
+      "top": { "move": { "value": 2 } },
+      "bottom": { "attack": { "value": 2, "range": 0, "target": "SINGLE", "conditions": ["MUDDLE"] } } },
+    { "id": "py-05", "initiative": 67, "shuffle": false,
+      "top": { "attack": { "value": 2, "range": 0, "target": "SINGLE" } },
+      "bottom": { "move": { "value": 2 } } },
+    { "id": "py-06", "initiative": 44, "shuffle": true,
+      "top": { "attack": { "value": 2, "range": 0, "target": "SINGLE" } },
+      "bottom": { "move": { "value": 3 } } }
+  ]
+}
