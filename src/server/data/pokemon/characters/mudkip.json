@@ -12,5 +12,42 @@
   },
   "evolutionLevel": 16,
   "evolvesInto": "MARSHTOMP",
-  "cards": []
+  "cards": [
+    {
+      "id": "mud-01", "name": "Tackle", "level": 1, "initiative": 34,
+      "top": {
+        "behavior": { "attack": { "value": 2, "range": 0, "target": "SINGLE" } }
+      },
+      "bottom": {
+        "behavior": { "move": { "value": 2 } }
+      }
+    },
+    {
+      "id": "mud-02", "name": "Water Gun", "level": 1, "initiative": 40,
+      "top": {
+        "behavior": { "attack": { "value": 2, "range": 3, "target": "SINGLE" } }
+      },
+      "bottom": {
+        "behavior": { "move": { "value": 2 } }
+      }
+    },
+    {
+      "id": "mud-03", "name": "Mud-Slap", "level": 1, "initiative": 47,
+      "top": {
+        "behavior": { "attack": { "value": 2, "range": 0, "target": "SINGLE", "conditions": ["MUDDLE"] } }
+      },
+      "bottom": {
+        "behavior": { "move": { "value": 1 } }
+      }
+    },
+    {
+      "id": "mud-04", "name": "Growl", "level": 1, "initiative": 56,
+      "top": {
+        "behavior": { "attack": { "value": 1, "range": 0, "target": "SINGLE", "conditions": ["MUDDLE"] } }
+      },
+      "bottom": {
+        "behavior": { "move": { "value": 3 } }
+      }
+    }
+  ]
 }

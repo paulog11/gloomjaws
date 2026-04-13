@@ -12,5 +12,43 @@
   },
   "evolutionLevel": 16,
   "evolvesInto": "COMBUSKEN",
-  "cards": []
+  "cards": [
+    {
+      "id": "tor-01", "name": "Scratch", "level": 1, "initiative": 28,
+      "top": {
+        "behavior": { "attack": { "value": 3, "range": 0, "target": "SINGLE" } }
+      },
+      "bottom": {
+        "behavior": { "move": { "value": 2 } }
+      }
+    },
+    {
+      "id": "tor-02", "name": "Ember", "level": 1, "initiative": 38,
+      "top": {
+        "behavior": { "attack": { "value": 2, "range": 3, "target": "SINGLE" } }
+      },
+      "bottom": {
+        "behavior": { "move": { "value": 2 } }
+      }
+    },
+    {
+      "id": "tor-03", "name": "Growl", "level": 1, "initiative": 52,
+      "top": {
+        "behavior": { "attack": { "value": 1, "range": 0, "target": "SINGLE", "conditions": ["MUDDLE"] } }
+      },
+      "bottom": {
+        "behavior": { "move": { "value": 2 } }
+      }
+    },
+    {
+      "id": "tor-04", "name": "Focus Energy", "level": 1, "initiative": 22,
+      "top": {
+        "behavior": { "shield": 1, "xp": 1 },
+        "lossOnUse": true
+      },
+      "bottom": {
+        "behavior": { "move": { "value": 3 } }
+      }
+    }
+  ]
 }

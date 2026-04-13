@@ -12,5 +12,43 @@
   },
   "evolutionLevel": 16,
   "evolvesInto": "GROVYLE",
-  "cards": []
+  "cards": [
+    {
+      "id": "tre-01", "name": "Pound", "level": 1, "initiative": 30,
+      "top": {
+        "behavior": { "attack": { "value": 2, "range": 0, "target": "SINGLE" } }
+      },
+      "bottom": {
+        "behavior": { "move": { "value": 3 } }
+      }
+    },
+    {
+      "id": "tre-02", "name": "Quick Attack", "level": 1, "initiative": 16,
+      "top": {
+        "behavior": { "attack": { "value": 2, "range": 0, "target": "SINGLE" } }
+      },
+      "bottom": {
+        "behavior": { "move": { "value": 4 } }
+      }
+    },
+    {
+      "id": "tre-03", "name": "Absorb", "level": 1, "initiative": 42,
+      "top": {
+        "behavior": { "attack": { "value": 2, "range": 2, "target": "SINGLE" }, "heal": 1 },
+        "lossOnUse": true
+      },
+      "bottom": {
+        "behavior": { "move": { "value": 2 } }
+      }
+    },
+    {
+      "id": "tre-04", "name": "Leer", "level": 1, "initiative": 55,
+      "top": {
+        "behavior": { "attack": { "value": 1, "range": 0, "target": "SINGLE", "conditions": ["MUDDLE"] } }
+      },
+      "bottom": {
+        "behavior": { "move": { "value": 3 } }
+      }
+    }
+  ]
 }
